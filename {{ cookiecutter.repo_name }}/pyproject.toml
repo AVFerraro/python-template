@@ -1,0 +1,116 @@
+[project]
+name = "{{ cookiecutter.package_name }}"
+version = "0.1.0"
+description = "{{ cookiecutter.description }}"
+requires-python = ">={{ cookiecutter.python_version }}"
+authors = [{ name = "{{ cookiecutter.author_name }}" }]
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: {{ cookiecutter.python_version }}",
+]
+readme = "README.md"
+license-files = ["LICENSE"]
+dependencies = ["pip >=23"]
+
+[project.urls]
+repository = "{{ cookiecutter.project_repo }}"
+
+[dependency-groups]
+dev = [
+  "jupyterlab",
+  "mypy",
+  "pre-commit",
+  "pyprojroot",
+  "pytest",
+  "pytest-cov",
+  "pytest-mock",
+  "python-dotenv",
+  "ruamel.yaml",
+  "sphinx",
+  "taskipy",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+######################
+# Tool configuration #
+######################
+
+[tool.taskipy.tasks]
+setup = "pre-commit install --hook-type pre-commit && pre-commit autoupdate"
+check = "pre-commit run -a"
+test = "pytest -ra -vvv tests"
+docs = "sphinx-apidoc --tocfile index -Mfe -o docs/modules src/{{ cookiecutter.module_name }}/ && sphinx-build -av docs public"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+addopts = "-ra -vvv"
+
+[tool.ruff]
+target-version = "py{{ cookiecutter.python_version | replace('.', '') }}"
+extend-exclude = [".ipynb_checkpoints"]
+extend-include = ["*.ipynb"]
+line-length = 99
+
+[tool.ruff.lint]
+# order matches https://docs.astral.sh/ruff/rules
+select = [
+  # pyflakes
+  "F",
+  # pycodestyle
+  "E",
+  "W",
+  # mccabe
+  "C90",
+  # isort
+  "I",
+  # pydocstyle
+  "D",
+  # flake8-bugbear
+  "B",
+  "B9",
+  # flake8-builtins
+  "A",
+  # flake8-comprehensions
+  "C4",
+  # flake8-debugger
+  "T10",
+  # flake8-logging-format
+  "G",
+  # flake8-self
+  "SLF",
+  # flake8-simplify
+  "SIM",
+  # flake8-use-pathlib
+  "PTH",
+  # NumPy-specific
+  "NPY",
+  # Ruff-specific
+  "RUF0",
+  "RUF100", # = noqa-require-code
+
+]
+ignore = [
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "E501", # Replaced with B950, Hard line-length limit
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# ignore unused imports (F401) in all `__init__.py` files
+"__init__.py" = ["F401"]
+# ignore pydocstyle rules for tests
+"tests/*" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-builtins]
+ignorelist = ["copyright"]
+
+[tool.mypy]
+python_version = "{{ cookiecutter.python_version }}"
+warn_unused_ignores = true

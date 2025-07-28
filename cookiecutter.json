@@ -1,0 +1,15 @@
+{
+  "repo_name": "project-name",
+  "package_name": "{{ cookiecutter.repo_name | replace('_', '-') }}",
+  "module_name": "{{ cookiecutter.package_name | replace('-', '_') }}",
+  "author_name": "Name (or Company/Organisation/Team)",
+  "description": "A short description of the project",
+  "project_repo": "https://github.com/{{ cookiecutter.repo_name }}",
+  "python_version": [
+    "3.13",
+    "3.12",
+    "3.11"
+  ],
+  "license": "MIT",
+  "created_date": "{% now 'utc', '%Y/%m%d' %}"
+}

@@ -1,0 +1,7 @@
+threshold: medium
+
+fileignoreconfig:
+- filename: uv.lock
+  ignore_detectors: [ filecontent ]
+- filename: CHANGELOG.md
+  ignore_detectors: [ filecontent ]

@@ -1,0 +1,59 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks # misc hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+        exclude: \.svg$
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+  - repo: https://github.com/ComPWA/taplo-pre-commit # code formatter for toml
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+        name: check toml
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python # check editorconfig compliance
+    rev: 3.2.1
+    hooks:
+      - id: editorconfig-checker
+        alias: ec
+        exclude: ^dvc\.lock|\.(ipynb|svg|dvc)|[\.\-_]-lock(\.yml)?$
+  - repo: https://github.com/pre-commit/mirrors-prettier # code formatter for json, yaml, markdown
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier
+        exclude: '[\.\-_]lock(\.yml)?$'
+        stages: [pre-commit]
+  - repo: https://github.com/thoughtworks/talisman # check secrets are not being committed
+    rev: "v1.37.0"
+    hooks:
+      - id: talisman-commit
+        entry: cmd --githook pre-commit
+  - repo: https://github.com/asottile/pyupgrade # auto-upgrade syntax
+    rev: v3.20.0
+    hooks:
+      - id: pyupgrade
+        alias: pyupgrade-core
+  - repo: https://github.com/astral-sh/ruff-pre-commit # static linting, styling, and formatting
+    rev: v0.12.5
+    hooks:
+      - id: ruff
+        args: [--select, I, --fix]
+        name: isort
+      - id: ruff
+      - id: ruff-format
+  # local hook definitions
+  - repo: local
+    hooks:
+      - id: mypy # type checking
+        name: mypy
+        entry: uv run mypy
+        language: system
+        types_or: [python, pyi]
+        args: ["--scripts-are-modules"]
+        require_serial: true
+        exclude: "tests"
