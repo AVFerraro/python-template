@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks # misc hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-json
@@ -39,7 +39,7 @@ repos:
       - id: pyupgrade
         alias: pyupgrade-core
   - repo: https://github.com/astral-sh/ruff-pre-commit # static linting, styling, and formatting
-    rev: v0.12.5
+    rev: v0.12.8
     hooks:
       - id: ruff
         args: [--select, I, --fix]
