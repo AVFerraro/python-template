@@ -11,5 +11,5 @@
     "3.11"
   ],
   "license": "MIT",
-  "created_date": "{% now 'utc', '%Y/%m%d' %}"
+  "created_date": "{% now 'utc', '%Y/%m/%d' %}"
 }
