@@ -10,9 +10,9 @@ class RootResponse(BaseModel):
 class HealthComponents(BaseModel):
     """Components for health check."""
 
-    memory_usage: str
-    disk_usage: str
-    cpu_usage: str
+    memory_usage: float
+    disk_usage: float
+    cpu_usage: float
 
 
 class HealthResponse(BaseModel):
@@ -21,3 +21,16 @@ class HealthResponse(BaseModel):
     status: int
     timestamp: str
     components: HealthComponents
+
+
+class ExampleGetResponse(BaseModel):
+    """Example get request response."""
+
+    result: str
+
+
+class ExamplePostResponse(BaseModel):
+    """Example post request response."""
+
+    settings: dict
+    result: str

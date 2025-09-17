@@ -3,18 +3,13 @@ from dataclasses import dataclass
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from {{ cookiecutter.module_name }} import __version__
-
 
 class Settings(BaseSettings):
     """API Configuration Settings."""
 
-    api_version: str = Field(
-        default=__version__,
-        description="Version of the API. Defaults to the version of {{ cookiecutter.package_name }}.",
-    )
+    example_setting: str = Field(default="example", description="Example setting that can be set.")
 
-    config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 @dataclass

@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 from datetime import datetime
 
 import psutil
-from fastapi import FastAPI, HTTPException, Request, status
+from fastapi import FastAPI, HTTPException, status
 
 from {{ cookiecutter.module_name }} import __version__
-from {{ cookiecutter.module_name }}.api import models, settings
+from {{ cookiecutter.module_name }}.api import models, routes, settings
 
 logger = logging.getLogger(__name__)
 
@@ -25,12 +25,9 @@ async def lifespan(app: FastAPI):
         raise RuntimeError(msg) from e
 
     yield
-    app.state.setting = None
 
-
-def get_app_settings(request: Request) -> settings.AppSettings:
-    """Get the API settings from FastAPI's app.state."""
-    return request.app.state.settings
+    app.state.settings = None
+    logger.info("API shutdown complete.")
 
 
 app = FastAPI(
@@ -67,3 +64,6 @@ def health_check() -> models.HealthResponse:
         msg = "Failed health check with error: %s" % e
         logger.exception(msg)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=msg) from e
+
+
+app.include_router(routes.router)

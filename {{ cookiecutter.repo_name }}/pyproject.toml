@@ -17,6 +17,7 @@ dependencies = [
   "pydantic",
   "pydantic-settings",
   "typer",
+  "uvicorn",
 ]
 
 [dependency-groups]
@@ -49,6 +50,7 @@ build-backend = "uv_build"
 setup = "pre-commit install --hook-type pre-commit && pre-commit autoupdate"
 check = "pre-commit run -a"
 test = "pytest -ra -vvv tests"
+dev_api = "uvicorn {{ cookiecutter.module_name }}.api.app:app --host 0.0.0.0 --reload"
 docs = "sphinx-apidoc --tocfile index -Mfe -o docs/modules src/{{ cookiecutter.module_name }}/ && sphinx-build -av docs public"
 
 [tool.pytest.ini_options]

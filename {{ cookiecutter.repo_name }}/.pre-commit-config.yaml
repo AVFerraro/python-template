@@ -15,7 +15,7 @@ repos:
       - id: taplo-format
         name: check toml
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python # check editorconfig compliance
-    rev: 3.2.1
+    rev: 3.4.0
     hooks:
       - id: editorconfig-checker
         alias: ec
@@ -39,7 +39,7 @@ repos:
       - id: pyupgrade
         alias: pyupgrade-core
   - repo: https://github.com/astral-sh/ruff-pre-commit # static linting, styling, and formatting
-    rev: v0.12.8
+    rev: v0.13.0
     hooks:
       - id: ruff
         args: [--select, I, --fix]
