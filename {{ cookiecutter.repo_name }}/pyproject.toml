@@ -10,10 +10,15 @@ classifiers = [
 ]
 readme = "README.md"
 license-files = ["LICENSE"]
-dependencies = ["pip >=23"]
-
-[project.urls]
-repository = "{{ cookiecutter.project_repo }}"
+dependencies = [
+  "fastapi",
+  "pip >=23",
+  "psutil",
+  "pydantic",
+  "pydantic-settings",
+  "typer",
+  "uvicorn",
+]
 
 [dependency-groups]
 dev = [
@@ -30,9 +35,12 @@ dev = [
   "taskipy",
 ]
 
+[project.urls]
+repository = "{{ cookiecutter.project_repo }}"
+
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.9,<0.9.0"]
+build-backend = "uv_build"
 
 ######################
 # Tool configuration #
@@ -42,6 +50,7 @@ build-backend = "hatchling.build"
 setup = "pre-commit install --hook-type pre-commit && pre-commit autoupdate"
 check = "pre-commit run -a"
 test = "pytest -ra -vvv tests"
+dev_api = "uvicorn {{ cookiecutter.module_name }}.api.app:app --host 0.0.0.0 --reload"
 docs = "sphinx-apidoc --tocfile index -Mfe -o docs/modules src/{{ cookiecutter.module_name }}/ && sphinx-build -av docs public"
 
 [tool.pytest.ini_options]
@@ -114,3 +123,7 @@ ignorelist = ["copyright"]
 [tool.mypy]
 python_version = "{{ cookiecutter.python_version }}"
 warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["psutil"]
+ignore_missing_imports = true
